@@ -22,4 +22,5 @@ const esquemaUsuario = new mongoose.Schema(
   { timestamps: true }
 );
 
+// agregando comentario a modelo Usuario
 export const Usuario = mongoose.model("Usuario", esquemaUsuario);
