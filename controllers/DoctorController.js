@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import { crearDoctor } from "../service/DoctorService.js";
+import { Usuario } from "../models/Usuario.js";
+import { Doctor } from "../models/Doctor.js";
+
 
 export const registrarDoctor = async (req, res) => {
   const sesion = await mongoose.startSession();
