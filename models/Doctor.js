@@ -11,6 +11,7 @@ const esquemaDoctor = new mongoose.Schema(
     rut: {
       type: String,
       required: [true, "El Rut es Obligatorio"],
+      match: [/^\d{7,8}-[0-9kK]$/, "El formato es incorrecto"],
       unique: true,
       trim: true,
     },

@@ -6,6 +6,7 @@ const esquemaPaciente = new mongoose.Schema(
     rut: {
       type: String,
       required: [true, "El Rut es Obligatorio"],
+      match: [/^\d{7,8}-[0-9kK]$/, "El formato es incorrecto"],
       unique: true,
       trim: true,
     },
@@ -40,7 +41,7 @@ const esquemaPaciente = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/\S+@\S+\.\S+/, "eL correo no tiene un formato válido"],
+      match: [/\S+@\S+\.\S+/, "El correo no tiene un formato válido"],
     },
   },
   { timestamps: true }
