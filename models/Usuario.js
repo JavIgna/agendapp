@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const esquemaUsuario = new mongoose.Schema(
   {
@@ -21,6 +22,14 @@ const esquemaUsuario = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+esquemaUsuario.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  const textoAleatorio = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, textoAleatorio);
+  next();
+});
 
 // agregando comentario a modelo Usuario
 export const Usuario = mongoose.model("Usuario", esquemaUsuario);
