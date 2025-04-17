@@ -26,8 +26,7 @@ const esquemaAgendaMedica = new mongoose.Schema(
         paciente: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Paciente",
-          required: true,
-          unique: true,
+          default: null
         },
       },
     ],
