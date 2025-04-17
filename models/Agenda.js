@@ -23,10 +23,14 @@ const esquemaAgendaMedica = new mongoose.Schema(
           enum: ["Agendado", "Disponible"],
           required: true,
         },
+        confirmacion: {
+          type: Boolean,
+          default: false,
+        },
         paciente: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Paciente",
-          default: null
+          default: null,
         },
       },
     ],
