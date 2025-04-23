@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import { crearDoctor } from "../service/DoctorService.js";
 import { Usuario } from "../models/Usuario.js";
 import { Doctor } from "../models/Doctor.js";
-
 
 export const registrarDoctor = async (req, res) => {
   const sesion = await mongoose.startSession();
@@ -10,11 +8,6 @@ export const registrarDoctor = async (req, res) => {
 
   try {
     const { correo, password, rut, nombreCompleto, especialidad } = req.body;
-
-    // TODO Probar como afecta el res en caso de no cerrar sesión.
-    if ((!correo || !password || !rut || !nombreCompleto, !especialidad)) {
-      return res.status(400).json({ error: "Faltan campos requeridos" });
-    }
 
     const usuario = new Usuario({
       correo,
@@ -34,13 +27,21 @@ export const registrarDoctor = async (req, res) => {
     await doctor.save({ sesion });
 
     await sesion.commitTransaction();
-    sesion.endSession();
 
     res.status(201).json({ doctor, usuario });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      await sesion.abortTransaction();
+      return res.status(400).json({
+        error: "Error de validación",
+        detalles: error.errors,
+      });
+    }
+
     await sesion.abortTransaction();
-    sesion.endSession();
 
     res.status(500).json({ error: error.message });
+  } finally {
+    sesion.endSession();
   }
 };
