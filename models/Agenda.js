@@ -22,6 +22,7 @@ const esquemaAgendaMedica = new mongoose.Schema(
           type: String,
           enum: ["Agendado", "Disponible"],
           required: true,
+          default: "Disponible",
         },
         confirmacion: {
           type: Boolean,
