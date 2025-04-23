@@ -6,17 +6,16 @@ const esquemaAgendaMedica = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctor",
       required: true,
-      unique: true,
     },
     fecha: {
       type: Date,
-      require: true,
+      required: true,
     },
     bloques: [
       {
         hora: {
           type: Date,
-          require: true,
+          required: true,
         },
         agendado: {
           type: String,

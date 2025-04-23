@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import usuarioRoutes from "./routes/UsuarioRoutes.js";
-import doctorRouters from "./routes/DoctorRouters.js"
+import doctorRouters from "./routes/DoctorRouters.js";
+import agendaRouters from "./routes/AgendaRouters.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/doctor", doctorRouters);
+app.use("/api/agenda", agendaRouters);
 
 const iniciarServidor = async () => {
   try {

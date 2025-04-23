@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { AgendaMedica } from "../models/Agenda";
+import { AgendaMedica } from "../models/Agenda.js";
 
 export const generarAgenda = async (req, res) => {
   try {
@@ -14,7 +14,14 @@ export const generarAgenda = async (req, res) => {
     } = req.body;
 
     // TODO mejorar esta lógica y trabajarla de la manera más limpia posibles
-    if (!fechaInicio || !fechaFin || !horaInicio || !horaFin || !duracion) {
+    if (
+      !doctorId ||
+      !fechaInicio ||
+      !fechaFin ||
+      !horaInicio ||
+      !horaFin ||
+      !duracion
+    ) {
       return res.status(400).json({ error: "Faltan campos requeridos" });
     }
 
@@ -22,6 +29,9 @@ export const generarAgenda = async (req, res) => {
     const fechaFinal = new Date(fechaFin);
 
     const agendasGeneradas = [];
+
+    const [hInicio, mInicio] = horaInicio.split(":").map(Number);
+    const [hFin, mFin] = horaFin.split(":").map(Number);
 
     for (
       let dia = new Date(fechaInicial);
@@ -34,16 +44,13 @@ export const generarAgenda = async (req, res) => {
 
       const bloques = [];
 
-      const fechaBase = new Date(dia.toDateString()); // fecha a las 00:00
-
-      const [hInicio, mInicio] = horaInicio.split(":").map(Number);
-      const [hFin, mFin] = horaFin.split(":").map(Number);
+      const fechaBase = new Date(dia);
 
       const inicio = new Date(fechaBase);
-      inicio.setHours(hInicio, mInicio, 0, 0);
+      inicio.setUTCHours(hInicio, mInicio, 0, 0);
 
       const fin = new Date(fechaBase);
-      fin.setDate(hFin, mFin, 0, 0);
+      fin.setUTCHours(hFin, mFin, 0, 0);
 
       for (
         let actual = new Date(inicio);
@@ -57,18 +64,25 @@ export const generarAgenda = async (req, res) => {
 
       const nuevaAgenda = new AgendaMedica({
         doctor: doctorId,
-        fecha: new Date(fechaBase),
+        fecha: fechaBase,
         bloques,
       });
 
-      const agendaGuardada = nuevaAgenda.save();
+      const agendaGuardada = await nuevaAgenda.save();
       agendasGeneradas.push(agendaGuardada);
-
-      res
-        .status(201)
-        .json({ mensaje: "Agenda generadas", agendas: agendasGeneradas });
     }
+
+    res
+      .status(201)
+      .json({ mensaje: "Agenda generadas", agendas: agendasGeneradas });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        error: "Error de validación",
+        detalles: error.errors,
+      });
+    }
+
     res.status(500).json({ error: error.message });
   }
 };
