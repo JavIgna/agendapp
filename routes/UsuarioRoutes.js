@@ -8,4 +8,3 @@ router.post("/crear", registrarUsuario);
 
 
 export default router;
-

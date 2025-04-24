@@ -12,3 +12,5 @@ export const obtenerUsuarios = async () => {
 export const obtenerUsuarioPorId = async (id) => {
   return await Usuario.findById(id);
 };
+
+// TODO terminar crud
