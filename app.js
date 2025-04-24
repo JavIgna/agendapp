@@ -5,6 +5,7 @@ import usuarioRoutes from "./routes/UsuarioRoutes.js";
 import doctorRouters from "./routes/DoctorRouters.js";
 import agendaRouters from "./routes/AgendaRouters.js";
 import pacienteRouters from "./routes/PacienteRouters.js";
+import authRouters from "./routes/AuthRouters.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/doctor", doctorRouters);
 app.use("/api/agenda", agendaRouters);
 app.use("/api/paciente", pacienteRouters);
+app.use("/api", authRouters);
 
 const iniciarServidor = async () => {
   try {
