@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import { AgendaMedica } from "../models/Agenda.js";
 
 export const generarAgenda = async (req, res) => {
+  const sesion = await mongoose.startSession();
+  sesion.startTransaction();
+
   try {
     const {
       doctorId,
@@ -68,21 +71,23 @@ export const generarAgenda = async (req, res) => {
         bloques,
       });
 
-      const agendaGuardada = await nuevaAgenda.save();
+      const agendaGuardada = await nuevaAgenda.save({sesion});
       agendasGeneradas.push(agendaGuardada);
     }
-
+    await sesion.commitTransaction();
     res
       .status(201)
       .json({ mensaje: "Agenda generadas", agendas: agendasGeneradas });
   } catch (error) {
     if (error.name === "ValidationError") {
+      await sesion.abortTransaction();
       return res.status(400).json({
         error: "Error de validación",
         detalles: error.errors,
       });
     }
-
+    
+    await sesion.abortTransaction();
     res.status(500).json({ error: error.message });
   }
 };
