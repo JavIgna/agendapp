@@ -5,7 +5,7 @@ const esquemaAgendaMedica = new mongoose.Schema(
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctor",
-      required: true,
+      required: true
     },
     fecha: {
       type: Date,
