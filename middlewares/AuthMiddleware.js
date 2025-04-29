@@ -1,4 +1,4 @@
-import { verificarToken } from "../utils/auth";
+import { verificarToken } from "../utils/auth.js";
 
 export const verificarAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
