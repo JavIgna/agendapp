@@ -16,7 +16,7 @@ export const registrarDoctor = async (req, res) => {
       rol: "doctor",
     });
 
-    await usuario.save({ sesion });
+    await usuario.save({ session: sesion });
 
     const doctor = new Doctor({
       rut,
@@ -25,7 +25,7 @@ export const registrarDoctor = async (req, res) => {
       usuario: usuario._id,
     });
 
-    await doctor.save({ sesion });
+    await doctor.save({ session: sesion });
 
     await sesion.commitTransaction();
 

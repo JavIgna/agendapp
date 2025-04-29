@@ -21,7 +21,7 @@ const esquemaDoctor = new mongoose.Schema(
     },
     especialidad: {
       type: [String],
-      required: true,
+      required: [true, "La Especialidad es Obligatoria"],
     },
   },
   { timestamps: true }
