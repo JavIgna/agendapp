@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import { Usuario } from "../models/Usuario.js";
 import { Doctor } from "../models/Doctor.js";
-import { actualizarDoctor, obtenerDoctorPorId } from "../service/DoctorService.js";
+import {
+  actualizarDoctor,
+  obtenerDoctorPorId,
+} from "../service/DoctorService.js";
 
 export const registrarDoctor = async (req, res) => {
   const sesion = await mongoose.startSession();
@@ -16,6 +19,7 @@ export const registrarDoctor = async (req, res) => {
       rol: "doctor",
     });
 
+    // TODO revisar para no devolver el password al crear el usuario
     await usuario.save({ session: sesion });
 
     const doctor = new Doctor({
@@ -47,9 +51,6 @@ export const registrarDoctor = async (req, res) => {
   }
 };
 
-
-
-
 export const verDoctorAgenda = async (req, res) => {
   try {
     const id = req.params.id;
@@ -65,12 +66,10 @@ export const verDoctorAgenda = async (req, res) => {
     }
 
     res.json(doctorAgenda);
-
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 export const editarDoctor = async (req, res) => {
   try {
