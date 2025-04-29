@@ -7,7 +7,7 @@ export const verificarAuth = (req, res, next) => {
     return res.status(401).json({ error: "Token no proporcionado" });
   }
 
-  const token = authHeader.splith(" ")[1];
+  const token = authHeader.split(" ")[1];
 
   try {
     const payload = verificarToken(token);
@@ -17,4 +17,13 @@ export const verificarAuth = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({ error: "Token inválido o expirado" });
   }
+};
+
+export const soloAdmin = (req, res, next) => {
+  if (req.usuario?.rol !== "admin") {
+    return res
+      .status(403)
+      .json({ error: "Acceso denegado: solo administradores" });
+  }
+  next();
 };
