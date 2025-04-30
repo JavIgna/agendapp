@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { AgendaMedica } from "../models/Agenda.js";
+import { agendarBloque, obtenerAgendas } from "../service/AgendaService.js";
 
 export const generarAgenda = async (req, res) => {
   const sesion = await mongoose.startSession();
@@ -71,7 +72,7 @@ export const generarAgenda = async (req, res) => {
         bloques,
       });
 
-      const agendaGuardada = await nuevaAgenda.save({sesion});
+      const agendaGuardada = await nuevaAgenda.save({ sesion });
       agendasGeneradas.push(agendaGuardada);
     }
     await sesion.commitTransaction();
@@ -86,8 +87,29 @@ export const generarAgenda = async (req, res) => {
         detalles: error.errors,
       });
     }
-    
+
     await sesion.abortTransaction();
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const listarAgendas = async (req, res) => {
+  try {
+    const agendas = await obtenerAgendas();
+    res.json(agendas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const agendar = async (req, res) => {
+  try {
+    const { agendaId, bloqueId, pacienteId } = req.body;
+
+    const resultado = await agendarBloque(agendaId, bloqueId, pacienteId);
+
+    res.json({ mensaje: "Hora agendada", resultado });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
