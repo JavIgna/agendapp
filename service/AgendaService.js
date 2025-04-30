@@ -27,5 +27,20 @@ export const agendarBloque = async (agendaId, bloqueId, pacienteId) => {
   return await agenda.save();
 };
 
+export const confirmarBloque = async (agendaId, bloqueId) => {
+  const agenda = await AgendaMedica.findById(agendaId);
+
+  if (!agenda) throw new Error("Agenda no encontrada");
+
+  const bloque = agenda.bloques.id(bloqueId);
+
+  if (!bloque || bloque.agendado !== "Agendado")
+    throw new Error("Bloque no confirmado");
+
+  bloque.confirmacion = true;
+
+  return await agenda.save();
+};
+
 // En caso de querer hacer un update en campos especificos, podemos utilizar
 // findByIdAndUpdate({_id: id}, {nombre: "Nuevo Nombre"})
