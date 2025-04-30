@@ -18,7 +18,7 @@ export const agendarBloque = async (agendaId, bloqueId, pacienteId) => {
 
   const bloque = agenda.bloques.id(bloqueId);
 
-  if (!bloque || bloque.agendado === "Agendado")
+  if (!bloque || bloque.agendado !== "Disponible")
     throw new Error("Bloque no válido o no disponible");
 
   bloque.agendado = "Agendado";
@@ -38,6 +38,41 @@ export const confirmarBloque = async (agendaId, bloqueId) => {
     throw new Error("Bloque no confirmado");
 
   bloque.confirmacion = true;
+
+  return await agenda.save();
+};
+
+export const liberarBloque = async (agendaId, bloqueId) => {
+  const agenda = await AgendaMedica.findById(agendaId);
+
+  if (!agenda) throw new Error("Agenda no encontrada");
+
+  const bloque = agenda.bloques.id(bloqueId);
+
+  if (!bloque || bloque.agendado === "Disponible")
+    throw new Error("Bloque no agendado");
+
+  if(bloque.agendado === "Finalizado")
+    throw new Error("Bloque finalizado")
+
+  bloque.agendado = "Disponible";
+  bloque.confirmacion = false;
+  bloque.paciente = null;
+
+  return await agenda.save();
+};
+
+export const finalizarBloque = async (agendaId, bloqueId) => {
+  const agenda = await AgendaMedica.findById(agendaId);
+
+  if (!agenda) throw new Error("Agenda no encontrada");
+
+  const bloque = agenda.bloques.id(bloqueId);
+
+  if (!bloque || bloque.agendado !== "Agendado")
+    throw new Error("Bloque no agendado");
+
+  bloque.agendado = "Finalizado";
 
   return await agenda.save();
 };

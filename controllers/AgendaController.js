@@ -3,6 +3,8 @@ import { AgendaMedica } from "../models/Agenda.js";
 import {
   agendarBloque,
   confirmarBloque,
+  finalizarBloque,
+  liberarBloque,
   obtenerAgendas,
 } from "../service/AgendaService.js";
 
@@ -125,6 +127,30 @@ export const confirmar = async (req, res) => {
     const resultado = await confirmarBloque(agendaId, bloqueId);
 
     res.json({ mensaje: "Hora confirmada", resultado });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const liberar = async (req, res) => {
+  try {
+    const { agendaId, bloqueId } = req.body;
+
+    const resultado = await liberarBloque(agendaId, bloqueId);
+
+    res.json({ mensaje: "Hora liberada", resultado });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const finalizar = async (req, res) => {
+  try {
+    const { agendaId, bloqueId } = req.body;
+
+    const resultado = await finalizarBloque(agendaId, bloqueId);
+
+    res.json({ mensaje: "Hora finalizada", resultado });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
