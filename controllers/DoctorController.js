@@ -3,6 +3,7 @@ import { Usuario } from "../models/Usuario.js";
 import { Doctor } from "../models/Doctor.js";
 import {
   actualizarDoctor,
+  obtenerDoctores,
   obtenerDoctorPorId,
 } from "../service/DoctorService.js";
 
@@ -48,6 +49,15 @@ export const registrarDoctor = async (req, res) => {
     res.status(500).json({ error: error.message });
   } finally {
     sesion.endSession();
+  }
+};
+
+export const listarDoctores = async (req, res) => {
+  try {
+    const doctores = await obtenerDoctores();
+    res.json(doctores);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
