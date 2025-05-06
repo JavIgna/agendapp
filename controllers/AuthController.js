@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Usuario } from "../models/Usuario.js";
-import { generarToken } from "../utils/auth.js";
+import { generarToken, verificarToken } from "../utils/auth.js";
 import { enviarCorreo } from "../utils/nodemailer.js";
 
 export const login = async (req, res) => {
@@ -55,4 +55,29 @@ export const solicitarRecuperacion = async (req, res) => {
   });
 
   res.json({ mensaje: "Se ha enviado un correo con las instrucciones" });
+};
+
+export const restablecerPassword = async (req, res) => {
+  const { token, nuevaPassword } = req.body;
+
+  console.log(token);
+  console.log(nuevaPassword);
+
+  try {
+    const payload = verificarToken(token);
+    console.log(payload);
+
+    const usuario = await Usuario.findById(payload.id);
+
+    if (!usuario) {
+      return res.status(400).json({ error: "Usuario no encontrado" });
+    }
+
+    usuario.password = nuevaPassword;
+    await usuario.save();
+
+    res.json({ mensaje: "Contraseña restablecida correctamente" });
+  } catch (error) {
+    res.status(400).json({ error: "Token inválido o expirado" });
+  }
 };
