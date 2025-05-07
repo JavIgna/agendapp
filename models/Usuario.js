@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+// TODO agrega estado, para que el usuario pueda estar inactivo o activo y no tener que eliminarlo
 const esquemaUsuario = new mongoose.Schema(
   {
     correo: {

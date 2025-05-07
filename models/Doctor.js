@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// TODO agrega estado, para que el doctor pueda estar inactivo o activo y no tener que eliminarlo
 const esquemaDoctor = new mongoose.Schema(
   {
     usuario: {

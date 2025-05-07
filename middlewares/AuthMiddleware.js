@@ -27,3 +27,6 @@ export const soloAdmin = (req, res, next) => {
   }
   next();
 };
+
+// TODO agregar middleware para verificar si el usuario es Administrativo
+// TODO agregar middleware para verificar si el usuario es Doctor (es para que los medicos solo puedan ver sus propias agendas)

@@ -155,3 +155,5 @@ export const finalizar = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// TODO eliminar o desactivar bloques de la agenda

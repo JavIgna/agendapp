@@ -4,6 +4,7 @@ import { Usuario } from "../models/Usuario.js";
 import { generarToken, verificarToken } from "../utils/auth.js";
 import { enviarCorreo } from "../utils/nodemailer.js";
 
+// TODO agregar validación para verificar si el usuario está activo
 export const login = async (req, res) => {
   const { correo, password } = req.body;
 

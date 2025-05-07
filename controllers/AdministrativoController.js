@@ -72,3 +72,5 @@ export const editarAdministrativo = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// TODO crear funcion para eliminar o desactivar administrativo. RECORDAR: eliminar o desactivar usuario

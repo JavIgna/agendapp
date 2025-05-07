@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 //Esquema Paciente
+// TODO agrega estado, para que el paciente pueda estar inactivo o activo y no tener que eliminarlo
 const esquemaPaciente = new mongoose.Schema(
   {
     rut: {

@@ -93,3 +93,6 @@ export const editarDoctor = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// TODO crear funcion para eliminar o desactivar doctor. RECORDAR: eliminar o desactivar usuario
+

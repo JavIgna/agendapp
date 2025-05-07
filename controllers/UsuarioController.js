@@ -65,6 +65,7 @@ export const editarUsuario = async (req, res) => {
   }
 };
 
+// TODO cambiar el eliminar por desactivar paciente
 export const borrarUsuario = async (req, res) => {
   try {
     const id = req.params.id;

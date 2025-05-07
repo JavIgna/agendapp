@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
+// TODO agregar estado en bloques para desahabilitar un bloque
 const esquemaAgendaMedica = new mongoose.Schema(
   {
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctor",
-      required: true
+      required: true,
     },
     fecha: {
       type: Date,

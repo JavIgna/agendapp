@@ -4,7 +4,7 @@ import {
   crearPaciente,
   eliminarPaciente,
   obtenerPacientePorId,
-  obtenerPacientes
+  obtenerPacientes,
 } from "../service/PacienteService.js";
 
 export const registrarPaciente = async (req, res) => {
@@ -14,17 +14,24 @@ export const registrarPaciente = async (req, res) => {
   try {
     const datos = req.body;
 
-    if (!datos.rut || !datos.nombreCompleto || !datos.genero || !datos.fNacimiento || !datos.direccion || !datos.comuna) {
+    if (
+      !datos.rut ||
+      !datos.nombreCompleto ||
+      !datos.genero ||
+      !datos.fNacimiento ||
+      !datos.direccion ||
+      !datos.comuna
+    ) {
       return res.status(400).json({ error: "Faltan campos requeridos" });
     }
 
     const nuevoPaciente = await crearPaciente(datos);
 
-    res.status(201).json(nuevoPaciente)
+    res.status(201).json(nuevoPaciente);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const listarPacientes = async (req, res) => {
   try {
@@ -33,7 +40,7 @@ export const listarPacientes = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const verPaciente = async (req, res) => {
   try {
@@ -49,11 +56,11 @@ export const verPaciente = async (req, res) => {
       return res.status(404).json({ error: "Paciente no encontrado" });
     }
 
-    res.json(paciente)
+    res.json(paciente);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const editarPaciente = async (req, res) => {
   try {
@@ -66,16 +73,17 @@ export const editarPaciente = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
+// TODO cambiar el eliminar por desactivar paciente
 export const borrarPaciente = async (req, res) => {
   try {
     const id = req.params.id;
 
     const pacienteEliminado = await eliminarPaciente(id);
 
-    res.json({ mensaje: "Paciente eliminado", paciente: pacienteEliminado })
+    res.json({ mensaje: "Paciente eliminado", paciente: pacienteEliminado });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
