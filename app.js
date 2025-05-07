@@ -6,6 +6,7 @@ import doctorRouters from "./routes/DoctorRouters.js";
 import agendaRouters from "./routes/AgendaRouters.js";
 import pacienteRouters from "./routes/PacienteRouters.js";
 import administrativoRouters from "./routes/AdministrativoRouters.js";
+import graficoRouters from "./routes/GraficoRouters.js";
 import authRouters from "./routes/AuthRouters.js";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use("/api/doctor", doctorRouters);
 app.use("/api/agenda", agendaRouters);
 app.use("/api/paciente", pacienteRouters);
 app.use("/api/administrativo", administrativoRouters);
+app.use("/api/graficos", graficoRouters);
 app.use("/api", authRouters);
 
 const iniciarServidor = async () => {
