@@ -42,6 +42,20 @@ export const confirmarBloque = async (agendaId, bloqueId) => {
   return await agenda.save();
 };
 
+// findByIdAndUpdate()
+// findOneAndUpdate() Esto es más directo, es más rápida y no cargo
+/* AgendaMedica.findOneAndUpdate(
+  { _id: agendaId, "bloques._id": bloqueId },
+  {
+    $set: {
+      "bloques.$.agendado": "Disponible",
+      "bloques.$.confirmacion": false,
+      "bloques.$.paciente": null,
+    },
+  },
+  { new: true }
+); */
+
 export const liberarBloque = async (agendaId, bloqueId) => {
   const agenda = await AgendaMedica.findById(agendaId);
 
@@ -52,8 +66,7 @@ export const liberarBloque = async (agendaId, bloqueId) => {
   if (!bloque || bloque.agendado === "Disponible")
     throw new Error("Bloque no agendado");
 
-  if(bloque.agendado === "Finalizado")
-    throw new Error("Bloque finalizado")
+  if (bloque.agendado === "Finalizado") throw new Error("Bloque finalizado");
 
   bloque.agendado = "Disponible";
   bloque.confirmacion = false;
