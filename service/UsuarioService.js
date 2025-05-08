@@ -16,7 +16,7 @@ export const obtenerUsuarioPorId = async (id) => {
 export const actualizarUsuario = async (id, datos) => {
   const usuario = await Usuario.findById(id);
 
-  const { password, correo, rol } = datos;
+  const { password, correo, rol, estado } = datos;
 
   if (!usuario) throw new Error("Usuario no encontrado");
 
@@ -25,6 +25,8 @@ export const actualizarUsuario = async (id, datos) => {
   if (correo) usuario.correo = correo;
 
   if (rol) usuario.rol = rol;
+
+  if (estado) usuario.estado = estado;
 
   return await usuario.save();
 };

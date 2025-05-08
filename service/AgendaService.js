@@ -18,7 +18,7 @@ export const agendarBloque = async (agendaId, bloqueId, pacienteId) => {
 
   const bloque = agenda.bloques.id(bloqueId);
 
-  if (!bloque || bloque.agendado !== "Disponible")
+  if (!bloque || bloque.agendado !== "Disponible" || bloque.estado === false)
     throw new Error("Bloque no válido o no disponible");
 
   bloque.agendado = "Agendado";
@@ -34,8 +34,11 @@ export const confirmarBloque = async (agendaId, bloqueId) => {
 
   const bloque = agenda.bloques.id(bloqueId);
 
-  if (!bloque || bloque.agendado !== "Agendado")
-    throw new Error("Bloque no confirmado");
+  if (!bloque || bloque.estado === false)
+    throw new Error("Bloque no válido o no disponible");
+
+  if (bloque.agendado !== "Agendado")
+    throw new Error("Bloque no agendado");
 
   bloque.confirmacion = true;
 
@@ -63,10 +66,14 @@ export const liberarBloque = async (agendaId, bloqueId) => {
 
   const bloque = agenda.bloques.id(bloqueId);
 
-  if (!bloque || bloque.agendado === "Disponible")
+  if (!bloque || bloque.estado === false)
+    throw new Error("Bloque no válido o no disponible");
+
+  if (bloque.agendado === "Disponible")
     throw new Error("Bloque no agendado");
 
-  if (bloque.agendado === "Finalizado") throw new Error("Bloque finalizado");
+  if (bloque.agendado === "Finalizado")
+    throw new Error("Bloque finalizado")
 
   bloque.agendado = "Disponible";
   bloque.confirmacion = false;
@@ -82,7 +89,10 @@ export const finalizarBloque = async (agendaId, bloqueId) => {
 
   const bloque = agenda.bloques.id(bloqueId);
 
-  if (!bloque || bloque.agendado !== "Agendado")
+  if (!bloque || bloque.estado === false)
+    throw new Error("Bloque no válido o no disponible");
+
+  if (bloque.agendado !== "Agendado")
     throw new Error("Bloque no agendado");
 
   bloque.agendado = "Finalizado";
@@ -90,5 +100,22 @@ export const finalizarBloque = async (agendaId, bloqueId) => {
   return await agenda.save();
 };
 
+export const desactivarBloque = async (agendaId, bloqueId) => {
+  const agenda = await AgendaMedica.findById(agendaId);
+
+  if (!agenda) throw new Error("Agenda no encontrada");
+
+  const bloque = agenda.bloques.id(bloqueId);
+
+  if (!bloque)
+    throw new Error("Bloque no encontrado");
+
+  if (bloque.agendado !== "Disponible")
+    throw new Error("Bloque agendado o finalizado")
+
+  bloque.estado = false;
+
+  return await agenda.save();
+};
 // En caso de querer hacer un update en campos especificos, podemos utilizar
 // findByIdAndUpdate({_id: id}, {nombre: "Nuevo Nombre"})

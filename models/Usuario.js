@@ -21,6 +21,11 @@ const esquemaUsuario = new mongoose.Schema(
       enum: ["admin", "doctor", "administrativo"],
       required: true,
     },
+    estado: {
+      type : String,
+      enum : ["activo","Inactivo"],
+      required :true,
+    }
   },
   { timestamps: true }
 );
