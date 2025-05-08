@@ -2,6 +2,7 @@ import express from "express";
 import {
   agendar,
   confirmar,
+  desactivar,
   finalizar,
   generarAgenda,
   liberar,
@@ -17,5 +18,6 @@ router.post("/agendar", agendar);
 router.post("/confirmar", confirmar);
 router.post("/liberar", liberar);
 router.post("/finalizar", finalizar);
+router.post("/desactivar", desactivar);
 
 export default router;

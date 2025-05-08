@@ -3,6 +3,7 @@ import { AgendaMedica } from "../models/Agenda.js";
 import {
   agendarBloque,
   confirmarBloque,
+  desactivarBloque,
   finalizarBloque,
   liberarBloque,
   obtenerAgendas,
@@ -156,4 +157,14 @@ export const finalizar = async (req, res) => {
   }
 };
 
-// TODO eliminar o desactivar bloques de la agenda
+export const desactivar = async (req, res) => {
+  try {
+    const { agendaId, bloqueId } = req.body;
+
+    const resultado = await desactivarBloque(agendaId, bloqueId);
+
+    res.json({ mensaje: "Hora desactivada", resultado });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

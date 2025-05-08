@@ -33,6 +33,11 @@ const esquemaAgendaMedica = new mongoose.Schema(
           ref: "Paciente",
           default: null,
         },
+        estado: {
+          type: Boolean,
+          required: true,
+          default: false
+        }
       },
     ],
   },
