@@ -46,7 +46,7 @@ export const confirmarBloque = async (agendaId, bloqueId) => {
 };
 
 // findByIdAndUpdate()
-// findOneAndUpdate() Esto es más directo, es más rápida y no cargo
+// findOneAndUpdate() Esto es más directo, es más rápida y no cargo en memoria. Ejemplo para liberarBloque
 /* AgendaMedica.findOneAndUpdate(
   { _id: agendaId, "bloques._id": bloqueId },
   {
