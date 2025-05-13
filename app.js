@@ -1,13 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import usuarioRoutes from "./routes/UsuarioRoutes.js";
-import doctorRouters from "./routes/DoctorRouters.js";
-import agendaRouters from "./routes/AgendaRouters.js";
-import pacienteRouters from "./routes/PacienteRouters.js";
-import administrativoRouters from "./routes/AdministrativoRouters.js";
-import graficoRouters from "./routes/GraficoRouters.js";
-import authRouters from "./routes/AuthRouters.js";
+import mainRouters from "./routes/index.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -15,13 +9,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 
-app.use("/api/usuarios", usuarioRoutes);
-app.use("/api/doctor", doctorRouters);
-app.use("/api/agenda", agendaRouters);
-app.use("/api/paciente", pacienteRouters);
-app.use("/api/administrativo", administrativoRouters);
-app.use("/api/graficos", graficoRouters);
-app.use("/api", authRouters);
+// Eliminamos las rutas y las centralizamos en un solo archivo
+app.use("/api", mainRouters);
 
 const iniciarServidor = async () => {
   try {
