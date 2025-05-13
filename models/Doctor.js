@@ -24,6 +24,9 @@ const esquemaDoctor = new mongoose.Schema(
       required: [true, "La Especialidad es Obligatoria"],
     },
   },
+  /*   {
+    collection: "doctores" Esto define el nombre de la colección
+  }, */
   { timestamps: true }
 );
 
