@@ -17,10 +17,10 @@ export const registrarDoctor = async (req, res) => {
     const usuario = new Usuario({
       correo,
       password,
+      estado: "Activo",
       rol: "doctor",
     });
 
-    // TODO revisar para no devolver el password al crear el usuario
     await usuario.save({ session: sesion });
 
     const doctor = new Doctor({
@@ -33,6 +33,9 @@ export const registrarDoctor = async (req, res) => {
     await doctor.save({ session: sesion });
 
     await sesion.commitTransaction();
+
+    /*  const nuevoUsuario = usuario.toObject();
+    delete nuevoUsuario.password; */
 
     res.status(201).json({ doctor, usuario });
   } catch (error) {
@@ -93,6 +96,3 @@ export const editarDoctor = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// TODO crear funcion para eliminar o desactivar doctor. RECORDAR: eliminar o desactivar usuario
-

@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { Usuario } from "../models/Usuario.js";
 import { generarToken, verificarToken } from "../utils/auth.js";
 import { enviarCorreo } from "../utils/nodemailer.js";
 
-// TODO agregar validación para verificar si el usuario está activo
 export const login = async (req, res) => {
   const { correo, password } = req.body;
 
@@ -19,14 +17,15 @@ export const login = async (req, res) => {
   if (!usuario)
     return res.status(401).json({ error: "Credenciales inválidas" });
 
-    if(usuario.estado==='Inactivo'){
-      return res.status(200).json({ error: "Usuario Inactivo" });
-    }
+  if (usuario.estado !== "Activo") {
+    return res.status(401).json({
+      error: "Usuario Inactivo. Contactar al administrador del sistema",
+    });
+  }
 
   const esValido = await bcrypt.compare(password, usuario.password);
   if (!esValido)
     return res.status(401).json({ error: "Credenciales inválidas" });
-
 
   const token = generarToken(usuario);
 
@@ -79,7 +78,6 @@ export const restablecerPassword = async (req, res) => {
       return res.status(400).json({ error: "Usuario no encontrado" });
     }
 
-  
     usuario.password = nuevaPassword;
     await usuario.save();
 

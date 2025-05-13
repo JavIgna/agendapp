@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import { Usuario } from "../models/Usuario.js";
 import { Administrativo } from "../models/Administrativo.js";
+import { Usuario } from "../models/Usuario.js";
 import {
   actualizarAdministrativo,
   obtenerAdministrativos,
-  obtenerAdministrativoPorId,
 } from "../service/AdministrativoService.js";
 
 export const registrarAdministrativo = async (req, res) => {
@@ -12,15 +11,15 @@ export const registrarAdministrativo = async (req, res) => {
   sesion.startTransaction();
 
   try {
-    const { correo, password, rut, nombreCompleto, especialidad } = req.body;
+    const { correo, password, rut, nombreCompleto } = req.body;
 
     const usuario = new Usuario({
       correo,
       password,
+      estado: "Activo",
       rol: "administrativo",
     });
 
-    // TODO revisar para no devolver el password al crear el usuario
     await usuario.save({ session: sesion });
 
     const administrativo = new Administrativo({
@@ -72,5 +71,3 @@ export const editarAdministrativo = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// TODO crear funcion para eliminar o desactivar administrativo. RECORDAR: eliminar o desactivar usuario

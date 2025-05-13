@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-// TODO agrega estado, para que el usuario pueda estar inactivo o activo y no tener que eliminarlo
 const esquemaUsuario = new mongoose.Schema(
   {
     correo: {
@@ -22,10 +21,10 @@ const esquemaUsuario = new mongoose.Schema(
       required: true,
     },
     estado: {
-      type : String,
-      enum : ["activo","Inactivo"],
-      required :true,
-    }
+      type: String,
+      enum: ["Activo", "Inactivo"],
+      required: true,
+    },
   },
   { timestamps: true }
 );
@@ -36,6 +35,13 @@ esquemaUsuario.pre("save", async function (next) {
   const textoAleatorio = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, textoAleatorio);
   next();
+});
+
+esquemaUsuario.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  },
 });
 
 // agregando comentario a modelo Usuario

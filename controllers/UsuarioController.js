@@ -1,9 +1,8 @@
 import {
+  actualizarUsuario,
   crearUsuario,
   obtenerUsuarioPorId,
-  obtenerUsuarios,
-  actualizarUsuario,
-  eliminarUsuario,
+  obtenerUsuarios
 } from "../service/UsuarioService.js";
 
 export const registrarUsuario = async (req, res) => {
@@ -65,8 +64,8 @@ export const editarUsuario = async (req, res) => {
   }
 };
 
-// TODO cambiar el eliminar por desactivar paciente
-export const borrarUsuario = async (req, res) => {
+// Comentamos porque no usaremos esta función, solo desactivaremos el usuarios
+/* export const borrarUsuario = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -76,4 +75,4 @@ export const borrarUsuario = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}; */

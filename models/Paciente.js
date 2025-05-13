@@ -48,5 +48,4 @@ const esquemaPaciente = new mongoose.Schema(
   { timestamps: true }
 );
 
-// agregando comentario a modelo Usuario
 export const Paciente = mongoose.model("Paciente", esquemaPaciente);

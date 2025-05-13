@@ -31,10 +31,12 @@ export const actualizarUsuario = async (id, datos) => {
   return await usuario.save();
 };
 
-export const eliminarUsuario = async (id) => {
+// Comentamos porque no usaremos esta función, solo desactivaremos el usuarios
+/* export const eliminarUsuario = async (id) => {
   const usuario = await Usuario.findById(id)
 
   if (!usuario) throw new Error("Usuario no encontrado");
 
   return await usuario.deleteOne()
 }
+ */

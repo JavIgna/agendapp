@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// TODO agrega estado, para que el administrativo pueda estar inactivo o activo y no tener que eliminarlo
 const esquemaAdministrativo = new mongoose.Schema(
   {
     usuario: {

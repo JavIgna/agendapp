@@ -28,5 +28,20 @@ export const soloAdmin = (req, res, next) => {
   next();
 };
 
-// TODO agregar middleware para verificar si el usuario es Administrativo
+export const soloDoctor = (req, res, next) => {
+  if (req.usuario?.rol !== "doctor") {
+    return res.status(403).json({ error: "Acceso denegado: solo doctores" });
+  }
+  next();
+};
+
+export const soloAdministrativo = (req, res, next) => {
+  if (req.usuario?.rol !== "administrativo") {
+    return res
+      .status(403)
+      .json({ error: "Acceso denegado: solo administrativos" });
+  }
+  next();
+};
+
 // TODO agregar middleware para verificar si el usuario es Doctor (es para que los medicos solo puedan ver sus propias agendas)
