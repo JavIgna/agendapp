@@ -1,12 +1,16 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import mainRouters from "./routes/index.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+app.use(cors({ origin: "http://localhost:5173/" }));
+
 app.use(express.json());
 
 // Eliminamos las rutas y las centralizamos en un solo archivo
